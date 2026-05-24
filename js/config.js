@@ -1,5 +1,5 @@
 // ── TEACHABLE MACHINE MODEL ───────────────────────────────────────
-const MODEL_URL = "http://127.0.0.1:5500/my_model/";
+const MODEL_URL = "./my_model/";
 
 // TM labels from metadata.json:
 // Achtergrondruis, Hippo, Lion, Monkey, Panda, Sea-lion, Zebra
