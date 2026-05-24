@@ -2,15 +2,25 @@
 let camStream     = null;
 let mediaRecorder = null;
 let recChunks     = [];
-const recordings  = [];   // { blob, animal } — grows each round
+const recordings  = [];   // { id, blob, animal } — in-memory + persisted in IndexedDB
 
-// Hidden video element that holds the live stream — used as source for canvas mirrors
+// Hidden video element — single source for all canvas mirrors
 const _liveVideo = document.createElement("video");
-_liveVideo.muted      = true;
-_liveVideo.autoplay   = true;
+_liveVideo.muted       = true;
+_liveVideo.autoplay    = true;
 _liveVideo.playsInline = true;
 
 async function initCamera() {
+  // Load any clips saved from previous sessions
+  try {
+    const saved = await dbLoadRecordings();
+    recordings.push(...saved);
+    console.log(`Loaded ${saved.length} recording(s) from IndexedDB`);
+  } catch(e) {
+    console.warn("Could not load recordings from DB:", e);
+  }
+
+  // Start the live camera stream
   try {
     camStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
     _liveVideo.srcObject = camStream;
@@ -31,20 +41,25 @@ function startCameraRecording() {
   } catch(e) { console.warn("MediaRecorder error:", e); }
 }
 
-function stopCameraRecording() {
+// Stop recording, save blob to IndexedDB, push to recordings[]
+async function stopCameraRecording() {
   return new Promise(resolve => {
     if (!mediaRecorder || mediaRecorder.state === "inactive") { resolve(); return; }
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(recChunks, { type: "video/webm" });
-      recordings.push({ blob, animal: STATE.currentAnimal?.label || "" });
+    mediaRecorder.onstop = async () => {
+      const blob   = new Blob(recChunks, { type: "video/webm" });
+      const animal = STATE.currentAnimal?.label || "";
+
+      // Save to IndexedDB and get back the auto-generated id
+      const id = await dbSaveRecording(blob, animal).catch(() => null);
+      recordings.push({ id, blob, animal });
+
       resolve();
     };
     mediaRecorder.stop();
   });
 }
 
-// Returns a canvas element that continuously mirrors the live camera feed.
-// Each call gets its own independent canvas so we can fill all 20 cells.
+// Returns a canvas that continuously mirrors the live camera feed
 function createLiveMirrorCanvas() {
   const canvas = document.createElement("canvas");
   canvas.width  = 320;

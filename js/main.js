@@ -8,6 +8,9 @@ async function boot() {
   // Load saved coins from localStorage before anything renders
   loadCoins();
 
+  // Open IndexedDB (must happen before initCamera loads saved recordings)
+  await openDB();
+
   await initCamera();
   await loadTMModel();
 

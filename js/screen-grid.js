@@ -12,7 +12,7 @@ function initGridScreen() {
     cell.className = "grid-cell";
 
     if (recordings[i]) {
-      // Recorded clip from a previous round — play it as a looping video
+      // Recorded clip — play the blob as a looping video
       const vid = document.createElement("video");
       vid.src         = URL.createObjectURL(recordings[i].blob);
       vid.autoplay    = true;
@@ -21,11 +21,10 @@ function initGridScreen() {
       vid.playsInline = true;
       cell.appendChild(vid);
     } else {
-      // No recording yet — show live camera mirror via canvas
-      // (canvas mirrors are reliable even with 20 copies)
+      // No clip yet — show live camera mirror canvas
       const mirror = createLiveMirrorCanvas();
-      mirror.style.width  = "100%";
-      mirror.style.height = "100%";
+      mirror.style.width    = "100%";
+      mirror.style.height   = "100%";
       mirror.style.objectFit = "cover";
       cell.appendChild(mirror);
     }
@@ -37,10 +36,16 @@ function initGridScreen() {
   gridTimeout = setTimeout(endCelebration, GRID_DISPLAY_MS);
 }
 
-function endCelebration() {
+async function endCelebration() {
   if (gridTimeout) { clearTimeout(gridTimeout); gridTimeout = null; }
-  resetCoins(); // sets STATE.totalCoins = 0 and saves to localStorage
+
+  // Clear persisted recordings from IndexedDB and in-memory array
+  await dbClearRecordings();
   recordings.length = 0;
+
+  // Reset coins in localStorage
+  resetCoins();
+
   showScreen("start");
   setTimeout(() => initStartScreen(), 600);
 }
