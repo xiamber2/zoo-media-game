@@ -1,8 +1,7 @@
 // ── TEACHABLE MACHINE MODEL ───────────────────────────────────────
-// Auto-switches between local dev and GitHub Pages
 const MODEL_URL = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
   ? "http://127.0.0.1:5500/my_model/"
-  : `${window.location.origin}${window.location.pathname.replace(/\/$/, "")}/my_model/`;
+  : "https://xiamber2.github.io/zoo-media-game/my_model/";
 
 // TM labels from metadata.json:
 // Achtergrondruis, Hippo, Lion, Monkey, Panda, Sea-lion, Zebra
