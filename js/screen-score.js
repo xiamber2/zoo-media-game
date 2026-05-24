@@ -19,10 +19,14 @@ function initScoreScreen() {
   scoreValueEl.classList.add("score-value");
 
   // Cap the coins earned (not the score itself)
-  // score / 100 * MAX_COINS_PER_ROUND → max 50 coins
   const coinsEarned = Math.round((score / 100) * MAX_COINS_PER_ROUND);
-  STATE.detectedScore = score;          // keep real score for display
-  STATE.coinsEarned   = coinsEarned;    // separate value used by coins screen
+  STATE.detectedScore = score;
+  STATE.coinsEarned   = coinsEarned;
+
+  // Save the future total immediately — if the player reloads on the score
+  // screen or coins screen, they won't lose what they just earned
+  STATE.totalCoins = STATE.totalCoins + coinsEarned;
+  saveCoins();
 
   drawFrozenWave(scoreCanvas);
 

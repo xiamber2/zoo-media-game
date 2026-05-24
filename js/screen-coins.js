@@ -1,15 +1,16 @@
 // ── COIN COUNT-UP SCREEN  (Desktop 7) ────────────────────────────
-const coinsDisplayEl = document.getElementById("coins-display");
+// NOTE: STATE.totalCoins already has this round's coins added (saved by score screen).
+// We animate from (totalCoins - coinsEarned) up to totalCoins for the visual effect.
 
+const coinsDisplayEl = document.getElementById("coins-display");
 const COINS_MIN_DISPLAY_MS = 5000;
 
 function initCoinsScreen() {
   const screenEnteredAt = performance.now();
 
-  // Use pre-calculated coinsEarned (max 50) set by score screen
   const roundCoins = STATE.coinsEarned ?? 0;
-  const startVal   = STATE.totalCoins;
-  const endVal     = startVal + roundCoins;
+  const endVal     = STATE.totalCoins;           // already includes this round
+  const startVal   = endVal - roundCoins;        // where we animate from
 
   coinsDisplayEl.textContent = String(startVal).padStart(4, "0");
 
@@ -20,8 +21,6 @@ function initCoinsScreen() {
 
   function tick() {
     if (current >= endVal) {
-      STATE.totalCoins = endVal;
-      saveCoins(); // persist to localStorage
       coinsDisplayEl.textContent = String(endVal).padStart(4, "0");
 
       const elapsed   = performance.now() - screenEnteredAt;
