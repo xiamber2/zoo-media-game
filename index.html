@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zoo Media Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div id="game">
+
+  <!-- ════════════════════════════════════════════════════
+       SCREEN 1 – START
+  ════════════════════════════════════════════════════ -->
+  <div id="screen-start" class="screen active">
+
+    <div id="start-coin-badge" class="fu">
+      <img src="assets/Coin.png" alt="coin" />
+      <span class="count" id="start-coins">0000</span>
+    </div>
+
+    <p class="start-tagline fu">Get to 1000 points for a surprise!</p>
+
+    <div class="start-headline fu">
+      <span class="word">Release your inner</span>
+      <img src="assets/Logo.png" alt="Zoo Media" />
+      <span class="word">animal</span>
+    </div>
+
+    <div class="start-prompt fu">
+      <span class="s-static">Make a</span>
+      <span class="s-animal" id="start-animal-name">monkey</span>
+      <span class="s-static">sound to start.</span>
+    </div>
+
+    <div class="start-cards">
+      <div class="s-card bg-lion" id="sc-0">
+        <span class="s-card-label">Lion</span>
+        <img src="assets/Lion.png" alt="Lion" />
+      </div>
+      <div class="s-card bg-monkey" id="sc-1">
+        <span class="s-card-label">Monkey</span>
+        <img src="assets/Monkey.png" alt="Monkey" />
+      </div>
+      <div class="s-card bg-sealion" id="sc-2">
+        <span class="s-card-label">Sea lion</span>
+        <img src="assets/Sea lion.png" alt="Sea lion" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════
+       SCREEN 2 – COUNTDOWN
+  ════════════════════════════════════════════════════ -->
+  <div id="screen-countdown" class="screen">
+    <div class="hud-logo"><img src="assets/Logo.png" alt="Zoo Media" /></div>
+    <div class="hud-coins">
+      <img src="assets/Coin.png" alt="coin" />
+      <span class="count" id="cd-coins">0000</span>
+    </div>
+
+    <div class="play-card bg-monkey" id="cd-card">
+      <div class="pc-label" id="cd-card-label">Monkey</div>
+      <img id="cd-card-img" src="assets/Monkey.png" alt="Monkey" />
+    </div>
+
+    <canvas id="wave-canvas" class="wave-canvas-pos" width="700" height="80"></canvas>
+
+    <div class="cd-bottom">
+      <span class="cd-label">Make the sound in</span>
+      <span id="cd-number" class="c3">3</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════
+       SCREEN 3 – RECORDING
+  ════════════════════════════════════════════════════ -->
+  <div id="screen-recording" class="screen">
+    <div class="hud-logo"><img src="assets/Logo.png" alt="Zoo Media" /></div>
+    <div class="hud-coins">
+      <img src="assets/Coin.png" alt="coin" />
+      <span class="count" id="rec-coins">0000</span>
+    </div>
+
+    <div class="play-card bg-monkey" id="rec-card">
+      <div class="pc-label" id="rec-card-label">Monkey</div>
+      <img id="rec-card-img" src="assets/Monkey.png" alt="Monkey" />
+    </div>
+
+    <canvas id="wave-canvas-rec" class="wave-canvas-pos" width="700" height="80"></canvas>
+
+    <div id="rec-label">Recording sound</div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════
+       SCREEN 4 – SCORE
+  ════════════════════════════════════════════════════ -->
+  <div id="screen-score" class="screen">
+    <div class="hud-logo"><img src="assets/Logo.png" alt="Zoo Media" /></div>
+    <div class="hud-coins">
+      <img src="assets/Coin.png" alt="coin" />
+      <span class="count" id="score-coins">0000</span>
+    </div>
+
+    <p class="score-your-sound">Your sound</p>
+
+    <canvas id="score-wave-canvas" width="700" height="80"></canvas>
+
+    <p class="score-label">SCORE</p>
+    <p class="score-value" id="score-value">000</p>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════════
+       SCREEN 5 – COIN COUNT-UP  (Desktop 7)
+       Score × 10 coins tally up into the pill bar
+  ════════════════════════════════════════════════════ -->
+  <div id="screen-coins" class="screen">
+    <div class="hud-logo"><img src="assets/Logo.png" alt="Zoo Media" /></div>
+
+    <p class="coins-tagline">Na de score tellen de coins op</p>
+
+    <!-- big pill coin bar -->
+    <div class="coin-pill">
+      <div class="coin-pill-icon">
+        <img src="assets/Coin.png" alt="coin" />
+      </div>
+      <span class="coin-pill-count" id="coins-display">0000</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════
+       SCREEN 6 – 1000 COINS CELEBRATION  (Desktop 10)
+       Only shown when total hits ≥ 1000
+  ════════════════════════════════════════════════════ -->
+  <div id="screen-thousand" class="screen">
+    <div class="hud-logo"><img src="assets/Logo.png" alt="Zoo Media" /></div>
+
+    <!-- same pill, but counts 0 → 1000 -->
+    <div class="coin-pill coin-pill--glow">
+      <div class="coin-pill-icon">
+        <img src="assets/Coin.png" alt="coin" />
+      </div>
+      <span class="coin-pill-count" id="thousand-display">0000</span>
+    </div>
+
+    <!-- flying coin particles rendered by canvas -->
+    <canvas id="particle-canvas"></canvas>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════
+       SCREEN 7 – VIDEO GRID  (Desktop 11)
+       Everyone who made the same sound
+  ════════════════════════════════════════════════════ -->
+  <div id="screen-grid" class="screen">
+    <!-- ZOO MEDIA watermark centred -->
+    <div class="grid-logo-overlay">
+      <img src="assets/Logo.png" alt="Zoo Media" />
+    </div>
+
+    <!-- 4×5 grid of webcam recordings -->
+    <div class="video-grid" id="video-grid"></div>
+  </div>
+
+</div><!-- #game -->
+
+<div id="dev-status">Loading…</div>
+
+<!-- Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.4.0/dist/speech-commands.min.js"></script>
+
+<!-- Game scripts -->
+<script src="js/config.js"></script>
+<script src="js/state.js"></script>
+<script src="js/screen.js"></script>
+<script src="js/waveform.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/camera.js"></script>
+<script src="js/teachable.js"></script>
+<script src="js/screen-start.js"></script>
+<script src="js/screen-countdown.js"></script>
+<script src="js/screen-recording.js"></script>
+<script src="js/screen-score.js"></script>
+<script src="js/screen-coins.js"></script>
+<script src="js/screen-thousand.js"></script>
+<script src="js/screen-grid.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

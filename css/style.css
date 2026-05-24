@@ -1,0 +1,428 @@
+/* ══════════════════════════════════════════════════════════════════
+   ZOO MEDIA GAME — styles.css
+══════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* FIX 2: No hover effects, no cursor changes, no pointer interactions */
+* { cursor: default !important; user-select: none !important; }
+
+:root {
+  --black:    #0d0d0d;
+  --white:    #ffffff;
+  --pink:     #ff3ca0;
+  --zoo-blue: #4040ff;
+  --gold:     #ffd700;
+  --grey:     #b0b0b0;
+  --green:    #00e060;
+  --red:      #ff3c3c;
+  --dissolve: 0.6s ease;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── GAME CONTAINER ──────────────────────────────────────────────── */
+#game {
+  position: relative;
+  width: 1280px;
+  height: 800px;
+  overflow: hidden;
+}
+
+/* ── SCREENS ─────────────────────────────────────────────────────── */
+.screen {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  /* FIX 5: dissolve transition on all screens */
+  transition: opacity var(--dissolve);
+}
+.screen.active {
+  opacity: 1;
+  pointer-events: none; /* FIX 2: never allow pointer events on any screen */
+}
+
+/* ── SHARED HUD (logo + coins) ───────────────────────────────────── */
+.hud-logo {
+  position: absolute;
+  top: 36px; left: 48px;
+}
+.hud-logo img { height: 64px; image-rendering: pixelated; }
+
+.hud-coins {
+  position: absolute;
+  top: 30px; right: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #1e1e1e;
+  border: 2px solid #333;
+  border-radius: 100px;
+  padding: 8px 22px 8px 10px;
+}
+.hud-coins img { width: 40px; height: 40px; image-rendering: pixelated; }
+.hud-coins .count {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 20px;
+  color: var(--white);
+  letter-spacing: 2px;
+}
+
+/* FIX 1: Cards are image-only — no background, no padding, no label */
+/* FIX 2: No hover states anywhere */
+
+/* ── SHARED ANIMATIONS ───────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fu                   { animation: fadeUp 0.6s ease both; }
+.fu:nth-child(1)      { animation-delay: .05s; }
+.fu:nth-child(2)      { animation-delay: .15s; }
+.fu:nth-child(3)      { animation-delay: .25s; }
+.fu:nth-child(4)      { animation-delay: .35s; }
+
+@keyframes numPop {
+  0%   { transform: scale(1.7); opacity: 0; }
+  50%  { transform: scale(0.9); opacity: 1; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+.pop { animation: numPop 0.4s cubic-bezier(.22, 1, .36, 1) forwards; }
+
+@keyframes recBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}
+
+@keyframes coinPop {
+  0%   { transform: scale(0) rotate(-15deg); opacity: 0; }
+  60%  { transform: scale(1.1) rotate(4deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg);   opacity: 1; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SCREEN 1 – START
+══════════════════════════════════════════════════════════════════ */
+#screen-start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#start-coin-badge {
+  margin-top: 44px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #1e1e1e;
+  border: 2px solid #333;
+  border-radius: 100px;
+  padding: 6px 22px 6px 10px;
+}
+#start-coin-badge img { width: 40px; height: 40px; image-rendering: pixelated; }
+#start-coin-badge .count {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 20px;
+  color: var(--white);
+  letter-spacing: 2px;
+}
+
+.start-tagline {
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--grey);
+}
+
+.start-headline {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.start-headline .word {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 26px;
+  color: var(--white);
+  line-height: 1.4;
+}
+.start-headline img { height: 52px; image-rendering: pixelated; }
+
+.start-prompt {
+  margin-top: 26px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 21px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.start-prompt .s-static { color: var(--pink); }
+.start-prompt .s-animal { color: #d4944a; }
+
+/* FIX 1 & 2: Cards on start screen — image only, no bg, no hover */
+.start-cards {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 24px;
+  align-items: flex-end;
+}
+.s-card {
+  width: 200px;
+  position: relative;
+  transform-origin: bottom center;
+  /* no background, no padding, no border-radius, no box-shadow */
+  background: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+/* FIX 2: locked tilt positions, no hover */
+.start-cards .s-card:nth-child(1) { transform: rotate(-8deg) translateY(40px); z-index: 1; }
+.start-cards .s-card:nth-child(2) { transform: rotate(0deg)  translateY(0px);  z-index: 3; }
+.start-cards .s-card:nth-child(3) { transform: rotate(8deg)  translateY(40px); z-index: 1; }
+/* FIX 2: No hover state */
+.s-card .s-card-label { display: none; } /* label hidden — image already has it baked in */
+.s-card img { display: block; width: 100%; image-rendering: pixelated; }
+
+/* ══════════════════════════════════════════════════════════════════
+   SCREENS 2 & 3 – COUNTDOWN / RECORDING
+══════════════════════════════════════════════════════════════════ */
+
+/* FIX 1: play-card is image only — transparent bg */
+.play-card {
+  position: absolute;
+  top: 55px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  background: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+.play-card .pc-label { display: none; } /* label baked into image */
+.play-card img { width: 100%; image-rendering: pixelated; display: block; }
+
+.wave-canvas-pos {
+  position: absolute;
+  top: 450px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* countdown */
+.cd-bottom {
+  position: absolute;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  white-space: nowrap;
+}
+.cd-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px;
+  color: var(--white);
+  display: block;
+  margin-bottom: 20px;
+}
+#cd-number {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 72px;
+  line-height: 1;
+  display: block;
+}
+#cd-number.c3 { color: var(--green); }
+#cd-number.c2 { color: var(--gold); }
+#cd-number.c1 { color: var(--red); }
+
+/* recording */
+#rec-label {
+  position: absolute;
+  bottom: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 20px;
+  color: var(--red);
+  white-space: nowrap;
+  animation: recBlink 0.9s ease-in-out infinite;
+  opacity: 0;
+}
+#rec-label.visible { opacity: 1; }
+
+/* ══════════════════════════════════════════════════════════════════
+   SCREEN 4 – SCORE / RESULT
+══════════════════════════════════════════════════════════════════ */
+#screen-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-your-sound {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: var(--white);
+  margin-bottom: 28px;
+  letter-spacing: 1px;
+}
+
+#score-wave-canvas {
+  display: block;
+  margin-bottom: 48px;
+}
+
+.score-value {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 80px;
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: 4px;
+  animation: coinPop 0.5s cubic-bezier(.22,1,.36,1) both;
+  animation-delay: 0.2s;
+}
+.score-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: var(--grey);
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SCREEN 5 – COIN COUNT-UP
+══════════════════════════════════════════════════════════════════ */
+#screen-coins {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+}
+
+.coins-tagline {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: var(--white);
+  letter-spacing: 1px;
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.coin-pill {
+  display: flex;
+  align-items: center;
+  background: #3a3a3a;
+  border-radius: 100px;
+  padding: 10px 40px 10px 10px;
+  gap: 20px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  min-width: 440px;
+}
+.coin-pill--glow {
+  box-shadow: 0 0 60px rgba(255, 215, 0, 0.35), 0 8px 40px rgba(0,0,0,0.5);
+}
+.coin-pill-icon {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: #222;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.coin-pill-icon img {
+  width: 64px; height: 64px;
+  image-rendering: pixelated;
+}
+.coin-pill-count {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 48px;
+  color: var(--white);
+  letter-spacing: 6px;
+  min-width: 220px;
+  text-align: right;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SCREEN 6 – THOUSAND CELEBRATION
+══════════════════════════════════════════════════════════════════ */
+#screen-thousand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SCREEN 7 – VIDEO GRID
+══════════════════════════════════════════════════════════════════ */
+#screen-grid { background: var(--black); }
+
+.video-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 4px;
+}
+.video-grid .grid-cell {
+  background: #111;
+  overflow: hidden;
+  position: relative;
+}
+.video-grid .grid-cell video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.grid-logo-overlay {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0.92;
+}
+.grid-logo-overlay img {
+  height: 120px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 20px rgba(64,64,255,0.6));
+}
+
+/* ── DEV STATUS ──────────────────────────────────────────────────── */
+#dev-status {
+  position: fixed;
+  bottom: 14px; right: 18px;
+  font-size: 10px;
+  color: #444;
+  font-family: 'DM Sans', sans-serif;
+  pointer-events: none;
+}
