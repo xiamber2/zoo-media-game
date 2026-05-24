@@ -21,6 +21,7 @@ function initCoinsScreen() {
   function tick() {
     if (current >= endVal) {
       STATE.totalCoins = endVal;
+      saveCoins(); // persist to localStorage
       coinsDisplayEl.textContent = String(endVal).padStart(4, "0");
 
       const elapsed   = performance.now() - screenEnteredAt;

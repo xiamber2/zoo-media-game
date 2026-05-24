@@ -5,9 +5,10 @@ function setDevStatus(msg) { devStatusEl.textContent = msg; }
 async function boot() {
   setDevStatus("Loading model…");
 
-  // Init camera early so permission prompt appears at load time
-  await initCamera();
+  // Load saved coins from localStorage before anything renders
+  loadCoins();
 
+  await initCamera();
   await loadTMModel();
 
   initStartScreen();

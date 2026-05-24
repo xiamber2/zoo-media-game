@@ -39,7 +39,7 @@ function initGridScreen() {
 
 function endCelebration() {
   if (gridTimeout) { clearTimeout(gridTimeout); gridTimeout = null; }
-  STATE.totalCoins = 0;
+  resetCoins(); // sets STATE.totalCoins = 0 and saves to localStorage
   recordings.length = 0;
   showScreen("start");
   setTimeout(() => initStartScreen(), 600);
