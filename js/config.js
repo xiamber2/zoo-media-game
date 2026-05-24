@@ -1,51 +1,53 @@
 // ── TEACHABLE MACHINE MODEL ───────────────────────────────────────
-const MODEL_URL = "./my_model/";
+// For local dev: http://127.0.0.1:5500/my_model/
+// For GitHub Pages: https://YOUR-USERNAME.github.io/zoo-media-game/my_model/
+const MODEL_URL = "http://127.0.0.1:5500/my_model/";
 
 // TM labels from metadata.json:
 // Achtergrondruis, Hippo, Lion, Monkey, Panda, Sea-lion, Zebra
 
 const ANIMALS = [
   {
-    name:      "monkey",
-    label:     "Monkey",        // must match TM label exactly
+    name:        "monkey",
+    label:       "Monkey",
     displayName: "Monkey",
-    img:       "Monkey.png",
-    cardClass: "bg-monkey",
+    img:         "Monkey.png",
+    cardClass:   "bg-monkey",
   },
   {
-    name:      "lion",
-    label:     "Lion",
+    name:        "lion",
+    label:       "Lion",
     displayName: "Lion",
-    img:       "Lion.png",
-    cardClass: "bg-lion",
+    img:         "Lion.png",
+    cardClass:   "bg-lion",
   },
   {
-    name:      "hippo",
-    label:     "Hippo",
+    name:        "hippo",
+    label:       "Hippo",
     displayName: "Hippo",
-    img:       "Hippo.png",
-    cardClass: "bg-hippo",
+    img:         "Hippo.png",
+    cardClass:   "bg-hippo",
   },
   {
-    name:      "sea lion",
-    label:     "Sea-lion",
+    name:        "sea lion",
+    label:       "Sea-lion",
     displayName: "Sea lion",
-    img:       "Sea lion.png",
-    cardClass: "bg-sealion",
+    img:         "Sea lion.png",   // exact filename with space
+    cardClass:   "bg-sealion",
   },
   {
-    name:      "zebra",
-    label:     "Zebra",
+    name:        "zebra",
+    label:       "Zebra",
     displayName: "Zebra",
-    img:       "Zebra.png",
-    cardClass: "bg-zebra",
+    img:         "Zebra.png",
+    cardClass:   "bg-zebra",
   },
   {
-    name:      "panda",
-    label:     "Panda",
+    name:        "panda",
+    label:       "Panda",
     displayName: "Panda",
-    img:       "Sea lion-1.png",  // using available panda asset
-    cardClass: "bg-panda",
+    img:         "Sea lion-1.png", // exact filename with space
+    cardClass:   "bg-panda",
   },
 ];
 
