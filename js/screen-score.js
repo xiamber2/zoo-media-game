@@ -4,7 +4,7 @@ const scoreValueEl = document.getElementById("score-value");
 const scoreCanvas  = document.getElementById("score-wave-canvas");
 
 const SCORE_DISPLAY_MS = 5000;
-const MAX_COINS_PER_ROUND = 50; // coins are capped, score is not
+const MAX_COINS_PER_ROUND = 100; // coins are capped, score is not
 
 function initScoreScreen() {
   scoreCoins.textContent = String(STATE.totalCoins).padStart(4, "0");
